@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.study.xiaohui.coolweather.db.CoolWeatherDB;
 import com.study.xiaohui.coolweather.mode.City;
 import com.study.xiaohui.coolweather.mode.County;
@@ -117,10 +120,11 @@ public class Utility {
             int liveWind = liveNumber.getInt("003");
             String liveTime = liveNumber.getString("000");
             String liveWeather = liveNumber.getString("001");
+            int liveWeatherCode = liveNumber.getInt("001");
             CoolWeatherDB coolWeatherDB = CoolWeatherDB.getInstance(context);
             String weather = coolWeatherDB.getWeather(liveWeather);
             int liveTemp = liveNumber.getInt("002");
-            saveWeatherInfo(context,pm,aqi,liveWind
+            saveWeatherInfo(context,pm,aqi,liveWind,liveWeatherCode
             ,liveTime,weather,liveTemp);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -131,13 +135,15 @@ public class Utility {
      * 将服务器返回的所有天气信息存储到SharedPreferences文件中。
      */
     public static void saveWeatherInfo(Context context,int pm, int aqi, int liveWind,
-                                       String liveTime, String weather, int liveTemp) {
+                                       int liveWeatherCode, String liveTime, String weather,
+                                       int liveTemp) {
         SharedPreferences.Editor editor = PreferenceManager
                 .getDefaultSharedPreferences(context).edit();
 
         editor.putBoolean("city_selected", true);
         editor.putInt("pm2.5", pm);
         editor.putInt("aqi", aqi);
+        editor.putInt("liveWeatherCode", liveWeatherCode);
         /*editor.putString("warningName", warningName);
         editor.putString("warningLevel", warningLevel);
         editor.putString("warningTime", warningTime);
@@ -150,7 +156,7 @@ public class Utility {
     }
 
     //空气质量数据处理
-    public static String getWeatherAquality(int aqi) {
+    public static String getWeatherQuality(int aqi) {
         String str = null;
         if (aqi >= 0 && aqi <= 50) {
             str = "优";
@@ -172,5 +178,22 @@ public class Utility {
             return str;
         }
         return str;
+    }
+
+    /**
+     * 利用 Android-Universal-Image-Loader-master
+     * 根据天气编码从网络上获取天气图片，并缓存到本地
+     * @param pictureCode：天气编码
+     * @param view：需要更新的imageView
+     */
+    public static void getWeatherPicture(int pictureCode, ImageView view){
+
+        String uri = "http://m.weather.com.cn/img/a"+pictureCode+".gif";
+        DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)   //内存缓存
+                .cacheOnDisk(true)    //硬盘缓存
+         .build();
+
+        ImageLoader.getInstance().displayImage(uri,view,displayImageOptions);
     }
 }
