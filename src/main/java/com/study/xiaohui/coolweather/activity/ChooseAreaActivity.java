@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -79,6 +81,16 @@ public class ChooseAreaActivity extends Activity {
         coolWeatherDB.isFirst();
 
         setContentView(R.layout.choose_area);
+        /**
+         * 设置状态栏颜色
+         */
+        Activity activity = ChooseAreaActivity.this;
+        if (Build.VERSION.SDK_INT >= 19) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().setStatusBarColor(calculateStatusColor(getResources()
+                    .getColor(R.color.city_color),0));
+        }
         listView = (ListView) findViewById(R.id.list_view);
         titleText = (TextView) findViewById(R.id.title_text);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataList);
@@ -263,5 +275,24 @@ public class ChooseAreaActivity extends Activity {
         } else {
             finish();
         }
+    }
+
+    /**
+     *
+     * @param color 设置状态栏颜色
+     * @param alpha 设置状态栏透明度
+     * @return 0xffrrggbb rrggbb是设置后的透明度与颜色通过运算后得到的最终的颜色
+     */
+    private static int calculateStatusColor(int color, int alpha) {
+        float a = 1 - alpha / 255f;
+        int red = color >> 16 & 0xff;
+        int green = color >> 8 & 0xff;
+        int blue = color & 0xff;
+        red = (int) (red * a + 0.5);
+        green = (int) (green * a + 0.5);
+        blue = (int) (blue * a + 0.5);
+        return 0xff << 24 | red << 16 | green << 8 | blue;
+
+
     }
 }
