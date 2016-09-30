@@ -12,28 +12,35 @@ import java.net.URL;
  * Created by xiaohui on 2016/8/8.
  */
 public class HttpUtil {
+    private static final String TAG = "WizardFu";
+
     public static void sendHttpRequest(final String address, final HttpCallbackListener listener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                BufferedReader reader = null;
+                String result = null;
                 HttpURLConnection connection = null;
                 try {
                     URL url = new URL(address);
-                    connection = (HttpURLConnection) url.openConnection();
+                    connection = (HttpURLConnection) url
+                            .openConnection();
                     connection.setRequestMethod("GET");
-                    connection.setReadTimeout(8000);
-                    connection.setConnectTimeout(8000);
-                    connection.setRequestProperty("apikey", "03fb903f768b4ccaa09f48c567378cd8");
-                    InputStream in = connection.getInputStream();
-                    BufferedReader reader = new BufferedReader(new
-                            InputStreamReader(in, "UTF-8"));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
+                    // 填入apikey到HTTP header
+                    connection.setRequestProperty("apikey", "12257f67877330f45626cd04cc721814");
+                    connection.connect();
+                    InputStream is = connection.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String strRead = null;
+                    StringBuffer sbf = new StringBuffer();
+                    while ((strRead = reader.readLine()) != null) {
+                        sbf.append(strRead);
+                        sbf.append("\r\n");
                     }
+                    reader.close();
+                    result = sbf.toString();
                     if (listener != null) {
-                        listener.onFinish(response.toString());
+                        listener.onFinish(result);
                     }
 
                 } catch (MalformedURLException e) {

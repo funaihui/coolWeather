@@ -1,5 +1,6 @@
 package com.study.xiaohui.coolweather.activity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -67,6 +68,7 @@ public class ChooseAreaActivity extends Activity {
      */
     private int currentLevel;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +80,6 @@ public class ChooseAreaActivity extends Activity {
             finish();
         }
         coolWeatherDB = CoolWeatherDB.getInstance(this);
-        coolWeatherDB.isFirst();
 
         setContentView(R.layout.choose_area);
         /**
@@ -292,7 +293,5 @@ public class ChooseAreaActivity extends Activity {
         green = (int) (green * a + 0.5);
         blue = (int) (blue * a + 0.5);
         return 0xff << 24 | red << 16 | green << 8 | blue;
-
-
     }
 }

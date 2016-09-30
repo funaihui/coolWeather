@@ -45,7 +45,7 @@ public class AutoUpdateService extends Service {
     private void updateWeather() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherCode =preferences.getString("weather_code", "");
-        String address = "http://apis.baidu.com/tianyiweather/basicforecast/weatherapi?area=" +
+        String address = "http://apis.baidu.com/heweather/weather/free?cityip=" +
                 weatherCode;
         HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override

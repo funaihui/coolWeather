@@ -17,4 +17,5 @@
     <string name="aqi">空气质量:</string>
     <string name="issue_time">发布时间</string>
     <string name="issue">发布</string>
+    <string name="wind_sc">风力</string>
 </resources>

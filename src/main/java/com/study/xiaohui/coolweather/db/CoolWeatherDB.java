@@ -112,7 +112,7 @@ public class CoolWeatherDB {
         return countyList;
     }
 
-    //保存天气现象数据
+    /*//保存天气现象数据
     public void saveWeather() {
         ContentValues values = new ContentValues();
         values.put("weather_code", "00");
@@ -287,7 +287,7 @@ public class CoolWeatherDB {
         values.put("weather_name", "雪");
         mDatabase.insert("WeatherData", null, values);
 
-    }
+    }*/
 
     public String getWeather(String weatherCode) {
         Cursor cursor = mDatabase.query("WeatherData", null, "weather_code = ?",
@@ -305,7 +305,7 @@ public class CoolWeatherDB {
 
     /**
      * 判断是不是第一次启动程序，如果是则向WeatherData数据库中加数据，否则则不用添加
-     */
+     *//*
     public void isFirst() {
         Cursor cursor = mDatabase.query("WeatherData", null, null, null,
                 null, null, null);
@@ -314,5 +314,5 @@ public class CoolWeatherDB {
                 saveWeather();
             } while (cursor.moveToNext());
         }
-    }
+    }*/
 }

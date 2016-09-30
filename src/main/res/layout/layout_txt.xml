@@ -15,10 +15,11 @@
             android:layout_height="wrap_content"
             android:text="@string/combrf"
             android:textColor="@color/white"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:id="@+id/textView"/>
 
         <TextView
-            android:id="@+id/combrt"
+            android:id="@+id/comf_brf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
@@ -32,6 +33,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/combrf"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:textColor="@color/gray"
         android:textSize="14sp"/>
 
@@ -67,6 +70,8 @@
         android:id="@+id/cwContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="@string/cwbrf"
         android:textColor="@color/gray"
         android:textSize="14sp"/>
@@ -103,6 +108,8 @@
         android:id="@+id/dressContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="@string/dress_brf"
         android:textColor="@color/gray"
         android:textSize="14sp"/>
