@@ -94,13 +94,13 @@ public class DailyFragment extends Fragment {
         /**
          * 风力
          */
-        windSc1.setText(preferences.getString("sc0", ""));
-        windSc2.setText(preferences.getString("sc1", ""));
-        windSc3.setText(preferences.getString("sc2", ""));
-        windSc4.setText(preferences.getString("sc3", ""));
-        windSc5.setText(preferences.getString("sc4", ""));
-        windSc6.setText(preferences.getString("sc5", ""));
-        windSc7.setText(preferences.getString("sc6", ""));
+        windSc1.setText(decorateWind(preferences.getString("sc0", "")));
+        windSc2.setText(decorateWind(preferences.getString("sc1", "")));
+        windSc3.setText(decorateWind(preferences.getString("sc2", "")));
+        windSc4.setText(decorateWind(preferences.getString("sc3", "")));
+        windSc5.setText(decorateWind(preferences.getString("sc4", "")));
+        windSc6.setText(decorateWind(preferences.getString("sc4", "")));
+        windSc7.setText(decorateWind(preferences.getString("sc6", "")));
         /**
          * 天气图标
          */
@@ -117,5 +117,20 @@ public class DailyFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    /**
+     * 装饰风力
+     * @param wind
+     * @return
+     */
+    private String decorateWind(String wind){
+        String result = "";
+        if (wind.equals("微风")){
+            return  wind;
+        }else {
+            result = wind + "级";
+            return result;
+        }
     }
 }
