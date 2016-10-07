@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,17 +23,18 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DailyFragment extends Fragment {
     private SharedPreferences preferences = null;
-
+    private static final String TAG = "WizardFu";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = getActivity().getSharedPreferences("weatherData", MODE_PRIVATE);
-
+        Log.i(TAG, "DailyFragment: onCreate");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.i(TAG, "DailyFragment: onCreateView");
         View view = inflater.inflate(R.layout.daily_forecast_layout, container, false);
         TextView todayTemp1 = (TextView) view.findViewById(R.id.today_tmp1);
         TextView todayTemp2 = (TextView) view.findViewById(R.id.today_tmp2);

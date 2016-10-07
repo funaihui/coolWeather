@@ -110,6 +110,7 @@ public class ChooseAreaActivity extends Activity {
                     String countyName = countyList.get(position).getCountyName();
                     SharedPreferences.Editor editor = getSharedPreferences("site",0).edit();
                     editor.putString("countryName",countyName);
+                    editor.putString("countryCode",countyCode);
                     editor.apply();
                     Intent intent = new Intent(ChooseAreaActivity.this,
                             WeatherActivity.class);

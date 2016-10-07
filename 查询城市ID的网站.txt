@@ -1,0 +1,1 @@
+ https://api.heweather.com/x3/citylist?search=allchina&key=6598f5b8df35402f8ecf1960c8f908c3

@@ -18,4 +18,8 @@
     <string name="issue_time">发布时间</string>
     <string name="issue">发布</string>
     <string name="wind_sc">风力</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

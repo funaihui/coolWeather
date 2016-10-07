@@ -2,7 +2,6 @@ package com.study.xiaohui.coolweather.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
@@ -10,6 +9,7 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.study.xiaohui.coolweather.db.CoolWeatherDB;
+import com.study.xiaohui.coolweather.mode.AllCity;
 import com.study.xiaohui.coolweather.mode.City;
 import com.study.xiaohui.coolweather.mode.County;
 import com.study.xiaohui.coolweather.mode.Province;
@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import java.util.Map;
  */
 public class Utility {
     private static final String TAG = "WizardFu";
+
     public synchronized static boolean handleProvincesResponse(CoolWeatherDB coolWeatherDB,
                                                                String response) {
         if (!TextUtils.isEmpty(response)) {
@@ -89,12 +91,9 @@ public class Utility {
      * 解析天气的JSON数据
      */
     public static void handleWeatherResponse(Context context, String response) {
-        SharedPreferences preferences = PreferenceManager
-                .getDefaultSharedPreferences(context);
-        String weatherCode = preferences.getString("weather_code", "");
-        SharedPreferences weatherPreferences = context.getSharedPreferences("weatherData",Context.MODE_PRIVATE);
+        SharedPreferences weatherPreferences = context.getSharedPreferences("weatherData", Context.MODE_PRIVATE);
         SharedPreferences.Editor dataEdit = weatherPreferences.edit();
-        List<Map<String,String>> list = new ArrayList<>();
+        List<Map<String, String>> list = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray heWeather = jsonObject.getJSONArray("HeWeather data service 3.0");
@@ -102,44 +101,44 @@ public class Utility {
             JSONObject aqiTotal = weatherData.getJSONObject("aqi");
             JSONObject city = aqiTotal.getJSONObject("city");
             String qlty = city.getString("qlty");
-            dataEdit.putString("qlty",qlty);
+            dataEdit.putString("qlty", qlty);
             String pm25 = city.getString("pm25");
-            dataEdit.putString("pm25",pm25);
+            dataEdit.putString("pm25", pm25);
             JSONObject basic = weatherData.getJSONObject("basic");
             JSONObject update = basic.getJSONObject("update");
             String loc = update.getString("loc");
-            dataEdit.putString("loc",loc);
+            dataEdit.putString("loc", loc);
             /**
              * 获取dailyForecast
              */
             JSONArray dailyForecast = weatherData.getJSONArray("daily_forecast");
             for (int i = 0; i < dailyForecast.length(); i++) {
                 JSONObject oneDayForecast = dailyForecast.getJSONObject(i);
-                Map<String,String> map = new HashMap<>();
+                Map<String, String> map = new HashMap<>();
                 String date = oneDayForecast.getString("date");
-                map.put("date",date);
+                map.put("date", date);
                 JSONObject tmp = oneDayForecast.getJSONObject("tmp");
                 JSONObject cond = oneDayForecast.getJSONObject("cond");
                 String code_d = cond.getString("code_d");
-                map.put("code_d",code_d);
-                String max= tmp.getString("max");
-                map.put("max",max);
+                map.put("code_d", code_d);
+                String max = tmp.getString("max");
+                map.put("max", max);
                 String min = tmp.getString("min");
-                map.put("min",min);
+                map.put("min", min);
                 JSONObject wind = oneDayForecast.getJSONObject("wind");
                 String sc = wind.getString("sc");
-                map.put("sc",sc);
+                map.put("sc", sc);
                 list.add(map);
             }
             /**
              * 将获取的数据放在SharePreference中
              */
-            for (int i = 0; i <list.size() ; i++) {
-                dataEdit.putString("date"+i,list.get(i).get("date"));
-                dataEdit.putString("max"+i,list.get(i).get("max"));
-                dataEdit.putString("min"+i,list.get(i).get("min"));
-                dataEdit.putString("sc"+i,list.get(i).get("sc"));
-                dataEdit.putString("code_d"+i,list.get(i).get("code_d"));
+            for (int i = 0; i < list.size(); i++) {
+                dataEdit.putString("date" + i, list.get(i).get("date"));
+                dataEdit.putString("max" + i, list.get(i).get("max"));
+                dataEdit.putString("min" + i, list.get(i).get("min"));
+                dataEdit.putString("sc" + i, list.get(i).get("sc"));
+                dataEdit.putString("code_d" + i, list.get(i).get("code_d"));
             }
             /**
              * 获取实时天气并将获取的数据放在SharePreference中
@@ -149,9 +148,9 @@ public class Utility {
             String tmp = now.getString("tmp");
             String cond_txt = cond.getString("txt");
             String cond_code = cond.getString("code");
-            dataEdit.putString("cond_txt",cond_txt);
-            dataEdit.putString("tmp",tmp);
-            dataEdit.putString("cond_code",cond_code);
+            dataEdit.putString("cond_txt", cond_txt);
+            dataEdit.putString("tmp", tmp);
+            dataEdit.putString("cond_code", cond_code);
             /**
              * 获取天气指数并将获取的数据放在SharePreference中
              */
@@ -159,19 +158,19 @@ public class Utility {
             JSONObject comf = suggestion.getJSONObject("comf");
             String comf_brf = comf.getString("brf");
             String comf_txt = comf.getString("txt");
-            Log.i(TAG, "comf_brf: "+comf_brf);
-            dataEdit.putString("comf_brf",comf_brf);
-            dataEdit.putString("comf_txt",comf_txt);
+            Log.i(TAG, "comf_brf: " + comf_brf);
+            dataEdit.putString("comf_brf", comf_brf);
+            dataEdit.putString("comf_txt", comf_txt);
             JSONObject cw = suggestion.getJSONObject("cw");
             String cw_brf = cw.getString("brf");
             String cw_txt = cw.getString("txt");
-            dataEdit.putString("cw_brf",cw_brf);
-            dataEdit.putString("cw_txt",cw_txt);
+            dataEdit.putString("cw_brf", cw_brf);
+            dataEdit.putString("cw_txt", cw_txt);
             JSONObject drsg = suggestion.getJSONObject("drsg");
             String drsg_brf = drsg.getString("brf");
             String drsg_txt = drsg.getString("txt");
-            dataEdit.putString("drsg_brf",drsg_brf);
-            dataEdit.putString("drsg_txt",drsg_txt);
+            dataEdit.putString("drsg_brf", drsg_brf);
+            dataEdit.putString("drsg_txt", drsg_txt);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -180,68 +179,76 @@ public class Utility {
     }
 
     /**
-     * 将服务器返回的所有天气信息存储到SharedPreferences文件中。
-     *//*
-    public static void saveWeatherInfo(Context context,int pm, int aqi, int liveWind,
-                                       int liveWeatherCode, String liveTime, String weather,
-                                       int liveTemp) {
-        SharedPreferences.Editor editor = PreferenceManager
-                .getDefaultSharedPreferences(context).edit();
-
-        editor.putBoolean("city_selected", true);
-        editor.putInt("pm2.5", pm);
-        editor.putInt("aqi", aqi);
-        editor.putInt("liveWeatherCode", liveWeatherCode);
-        *//*editor.putString("warningName", warningName);
-        editor.putString("warningLevel", warningLevel);
-        editor.putString("warningTime", warningTime);
-        editor.putString("warningMessage", warningMessage);*//*
-        editor.putInt("liveWind", liveWind);
-        editor.putString("liveTime", liveTime);
-        editor.putString("liveWeather", weather);
-        editor.putInt("liveTemp", liveTemp);
-        editor.apply();
-    }
-*/
-    /*//空气质量数据处理
-    public static String getWeatherQuality(int aqi) {
-        String str = null;
-        if (aqi >= 0 && aqi <= 50) {
-            str = "优";
-            return str;
-        } else if (aqi >= 51 && aqi <= 100) {
-            str = "良";
-            return str;
-        } else if (aqi >= 101 && aqi <= 150) {
-            str = "轻度污染";
-            return str;
-        } else if (aqi >= 151 && aqi <= 200) {
-            str = "中度污染";
-            return str;
-        } else if (aqi >= 201 && aqi <= 300) {
-            str = "重度污染";
-            return str;
-        } else if (aqi > 300) {
-            str = "严重污染";
-            return str;
-        }
-        return str;
-    }*/
-
-    /**
      * 利用 Android-Universal-Image-Loader-master
      * 根据天气编码从网络上获取天气图片，并缓存到本地
+     *
      * @param pictureCode：天气编码
      * @param view：需要更新的imageView
      */
-    public static void getWeatherPicture(String pictureCode, ImageView view){
+    public static void getWeatherPicture(String pictureCode, ImageView view) {
 
-        String uri = "http://files.heweather.com/cond_icon/"+pictureCode+".png";
+        String uri = "http://files.heweather.com/cond_icon/" + pictureCode + ".png";
         DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)   //内存缓存
                 .cacheOnDisk(true)    //硬盘缓存
-         .build();
+                .build();
 
-        ImageLoader.getInstance().displayImage(uri,view,displayImageOptions);
+        ImageLoader.getInstance().displayImage(uri, view, displayImageOptions);
+    }
+
+    /**
+     * 把全国城市信息加入数据库
+     *
+     * @param cityDB
+     * @param response
+     * @return
+     */
+    public synchronized static boolean handleCitiesResponse(CoolWeatherDB cityDB,
+                                                            String response) {
+        List<Map<String, String>> list = handleCityResponse(response);
+        if (list != null && !list.isEmpty()) {
+            Iterator<Map<String, String>> it = list.iterator();
+            while (it.hasNext()) {
+                Map<String, String> cityInfo = it.next();
+                AllCity city = new AllCity();
+                city.setCity(cityInfo.get("city"));
+                city.setProvince(cityInfo.get("prov"));
+                city.setCountry(cityInfo.get("cnty"));
+                city.setLat(cityInfo.get("lat"));
+                city.setLon(cityInfo.get("lon"));
+                city.setCityId(cityInfo.get("id"));
+                cityDB.saveAllCity(city);
+            }
+
+        }
+        return false;
+    }
+
+    /**
+     * 解析全国城市的JSON数据
+     */
+    public static List<Map<String, String>> handleCityResponse(String response) {
+        List<Map<String, String>> list = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("city_info");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Map<String, String> map = new HashMap<>();
+                JSONObject cityInfo = jsonArray.getJSONObject(i);
+                Iterator<String> it = cityInfo.keys();
+                while (it.hasNext()) {
+                    String key = it.next();
+                    Log.i(TAG, "handleWeatherResponse: key---->" + key);
+
+                    String value = cityInfo.getString(key);
+                    map.put(key, value);
+                }
+                list.add(map);
+            }
+            Log.i(TAG, "handleWeatherResponse: list" + list);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

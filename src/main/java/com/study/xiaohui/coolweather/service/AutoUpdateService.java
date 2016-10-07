@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.study.xiaohui.coolweather.receiver.AutoUpdateReceiver;
 import com.study.xiaohui.coolweather.util.HttpCallbackListener;
@@ -44,9 +45,10 @@ public class AutoUpdateService extends Service {
 
     private void updateWeather() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String weatherCode =preferences.getString("weather_code", "");
-        String address = "http://apis.baidu.com/heweather/weather/free?cityip=" +
-                weatherCode;
+        String cityID =preferences.getString("cityID", "");
+        String address = "http://apis.baidu.com/heweather/weather/free?cityid=" +
+                cityID;
+        Log.i("WizardFu", "updateWeather:service---> "+address);
         HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {

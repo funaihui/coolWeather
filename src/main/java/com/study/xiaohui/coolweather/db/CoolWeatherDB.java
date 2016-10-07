@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.study.xiaohui.coolweather.mode.AllCity;
 import com.study.xiaohui.coolweather.mode.City;
 import com.study.xiaohui.coolweather.mode.County;
 import com.study.xiaohui.coolweather.mode.Province;
@@ -112,207 +113,43 @@ public class CoolWeatherDB {
         return countyList;
     }
 
-    /*//保存天气现象数据
-    public void saveWeather() {
-        ContentValues values = new ContentValues();
-        values.put("weather_code", "00");
-        values.put("weather_name", "晴");
-        mDatabase.insert("WeatherData", null, values);
+    public void saveAllCity(AllCity city) {
+        if (city != null) {
+            ContentValues values = new ContentValues();
+            values.put("city", city.getCity());
+            values.put("country", city.getCountry());
+            values.put("province", city.getProvince());
+            values.put("cityId", city.getCityId());
+            values.put("lat", city.getLat());
+            values.put("lon", city.getLon());
+            mDatabase.insert("AllCity", null, values);
+        }
+    }
 
-        values.put("weather_code", "01");
-        values.put("weather_name", "多云");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "02");
-        values.put("weather_name", "阴");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "03");
-        values.put("weather_name", "阵雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "04");
-        values.put("weather_name", "雷阵雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "05");
-        values.put("weather_name", "雷阵雨伴有冰雹");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "06");
-        values.put("weather_name", "雨夹雪");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "07");
-        values.put("weather_name", "小雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "08");
-        values.put("weather_name", "中雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "09");
-        values.put("weather_name", "大雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "10");
-        values.put("weather_name", "暴雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "11");
-        values.put("weather_name", "大暴雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "12");
-        values.put("weather_name", "特大暴雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "13");
-        values.put("weather_name", "阵雪");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "14");
-        values.put("weather_name", "小雪");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "15");
-        values.put("weather_name", "中雪");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "16");
-        values.put("weather_name", "大雪");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "17");
-        values.put("weather_name", "暴雪");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "18");
-        values.put("weather_name", "雾");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "19");
-        values.put("weather_name", "冻雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "20");
-        values.put("weather_name", "沙尘暴");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "21");
-        values.put("weather_name", "小到中雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "22");
-        values.put("weather_name", "中到大雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "23");
-        values.put("weather_name", "大到暴雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "24");
-        values.put("weather_name", "暴雨到大暴雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "25");
-        values.put("weather_name", "大暴雨到特大暴雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "26");
-        values.put("weather_name", "小到中雪");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "27");
-        values.put("weather_name", "中雪到大雪");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "28");
-        values.put("weather_name", "大雪到暴雪");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "29");
-        values.put("weather_name", "浮尘");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "30");
-        values.put("weather_name", "扬尘");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "31");
-        values.put("weather_name", "强沙尘暴");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "53");
-        values.put("weather_name", "霾");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "99");
-        values.put("weather_name", "无");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "32");
-        values.put("weather_name", "浓雾");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "49");
-        values.put("weather_name", "强浓雾");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "54");
-        values.put("weather_name", "中度霾");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "55");
-        values.put("weather_name", "重度霾");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "56");
-        values.put("weather_name", "严重霾");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "57");
-        values.put("weather_name", "大雾");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "58");
-        values.put("weather_name", "特强浓雾");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "301");
-        values.put("weather_name", "雨");
-        mDatabase.insert("WeatherData", null, values);
-
-        values.put("weather_code", "302");
-        values.put("weather_name", "雪");
-        mDatabase.insert("WeatherData", null, values);
-
-    }*/
-
-    public String getWeather(String weatherCode) {
-        Cursor cursor = mDatabase.query("WeatherData", null, "weather_code = ?",
-                new String[]{String.valueOf(weatherCode)}, null, null, null);
-        String weather = null;
+    /**
+     * 根据城市名称，查询本地数据库中城市的ID
+     * @param city
+     * @return
+     */
+    public String loadCityID(String city) {
+        String selectCityID=null;
+        Cursor cursor = mDatabase.query("AllCity", new String[]{"cityId"}, "city=?",
+                new String[]{city}, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                weather = cursor.getString(cursor.getColumnIndex("weather_name"));
+                selectCityID = cursor.getString(cursor.getColumnIndex("cityId"));
             } while (cursor.moveToNext());
-
         }
-
-        return weather;
+        return selectCityID;
     }
 
     /**
      * 判断是不是第一次启动程序，如果是则向WeatherData数据库中加数据，否则则不用添加
-     *//*
-    public void isFirst() {
-        Cursor cursor = mDatabase.query("WeatherData", null, null, null,
+     */
+    public boolean isFirst() {
+        boolean flag = false;
+        Cursor cursor = mDatabase.query("AllCity", null, null, null,
                 null, null, null);
-        if (!cursor.moveToFirst()) {
-            do {
-                saveWeather();
-            } while (cursor.moveToNext());
-        }
-    }*/
+        return flag = cursor.moveToFirst();
+    }
 }
