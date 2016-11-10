@@ -13,16 +13,9 @@
 - 状态栏一体化
 
 ## 产品效果展示 ##
-<style>
-img{
-width:260px;
-margin:20px;
-}
-</style>
-![](http://i.imgur.com/lEJ78kL.jpg)
-![](http://i.imgur.com/ZKzljIJ.jpg)
 
-![](http://i.imgur.com/M8UIHms.jpg)
-![](http://i.imgur.com/8fFwy1l.jpg)
-
-![](http://i.imgur.com/fDObEy8.jpg)
+![](http://i.imgur.com/083RpGe.jpg)
+![](http://i.imgur.com/fffZXeu.jpg)
+![](http://i.imgur.com/wSROR0w.jpg)
+![](http://i.imgur.com/oxIlKVR.jpg)
+![](http://i.imgur.com/uvs7tWK.jpg)
